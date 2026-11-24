@@ -39,12 +39,12 @@ label.ck{display:inline-flex;gap:5px;align-items:flex-start;margin-right:10px}
 table{width:100%;border-collapse:collapse;margin-top:4px}
 th,td{border:1px solid var(--line);padding:2px 3px;text-align:center}
 td input{width:100%;border:0;border-bottom:1px dotted var(--line);text-align:left;min-height:24px}
-#workers td input{padding:2px 3px;text-align:center;width:100%;font-size:11.5px}
+#workers td input{padding:2px 3px;text-align:center;width:100%;font-size:13px}
 #workersTable th,#workersTable td{text-align:center;vertical-align:middle}
 #workersTable td:first-child{width:auto}
 #workersTable input{display:block;margin:0 auto;max-width:100%;white-space:nowrap}
-#workersTable td input,#workersTable th{font-size:11.5px;letter-spacing:0;line-height:1.35}
-.signature-date{width:112px;max-width:42%;font:inherit;font-size:11px;text-align:center;color:#111;-webkit-text-fill-color:#111;background:transparent;border:0;border-bottom:1px dotted var(--line);padding:0 1px}
+#workersTable td input,#workersTable th{font-size:13px;letter-spacing:0;line-height:1.35}
+.signature-date{width:112px;max-width:42%;font:inherit;font-size:13px;text-align:center;color:#111;-webkit-text-fill-color:#111;background:transparent;border:0;border-bottom:1px dotted var(--line);padding:0 1px}
 td select{color:#111;-webkit-text-fill-color:#111;width:100%;border:0;background:transparent;font:inherit;padding:2px 0;cursor:pointer}
 td:first-child{width:32px}
 .sign{margin:6px 0 10px;text-align:center}
@@ -80,7 +80,7 @@ td:first-child{width:32px}
 #cbMenu div:hover{background:#eaf3ff}
 #cbMenu small{color:var(--muted);margin-left:6px}
 #cbMenu .clr{color:#b00020}
-@media (max-width:700px){.page{width:100%;padding:10px}.cols,.grid3{grid-template-columns:1fr}.applicant-cols{grid-template-columns:1fr}.foot{position:static;margin-top:10px}}
+@media (max-width:700px){.page{width:100%;padding:10px} .cols,.grid3{grid-template-columns:1fr} .applicant-cols{grid-template-columns:1fr} .foot{position:static;margin-top:10px}}
 
 @media print{
   /* กำหนดการพิมพ์ A4 ให้สวยเนี๊ยบเหมือนหน้าจอ 100% ตรงตามดีไซน์ */
@@ -130,11 +130,11 @@ td:first-child{width:32px}
     color:#000 !important;
   }
   #workersTable td input,#workersTable th{
-    font-size:11.5px !important;
+    font-size:13px !important;
   }
   .signature-date{
     width:92px !important;
-    font-size:11.5px !important;
+    font-size:13px !important;
   }
 }
 </style>
@@ -269,7 +269,7 @@ td:first-child{width:32px}
          <input type="text" data-k="s10" data-list="signs10" style="flex: 1; text-align: center;">
        </div>
        <div style="text-align: center; margin-top: 2px;">
-         <span style="font-size: 11px; font-weight: 600;">ผู้ขออนุญาต</span>
+         <span style="font-size: 13px; font-weight: 600;">ผู้ขออนุญาต</span>
        </div>
      </div>
      <div class="sl d" style="justify-content: center; margin-top: 4px;">( <input type="text" data-k="s10n"> ) <input type="date" class="signature-date" data-k="s10d" aria-label="วันที่ลงนามข้อ 10"></div>
@@ -284,7 +284,7 @@ td:first-child{width:32px}
          <input type="text" data-k="s11" data-list="signs11" style="flex: 1; text-align: center;">
        </div>
        <div style="text-align: center; margin-top: 2px;">
-         <span style="background:#00ffff; padding:2px 4px; border-radius:2px; font-weight:600; font-size:11px;">ผู้ควบคุมงาน</span>
+         <span style="background:#00ffff; padding:2px 4px; border-radius:2px; font-weight:600; font-size:13px;">ผู้ควบคุมงาน</span>
        </div>
      </div>
      <div class="sl d" style="justify-content: center; margin-top: 4px;">( <input type="text" data-k="s11n"> ) <input type="date" class="signature-date" data-k="s11d" aria-label="วันที่ลงนามข้อ 11"></div>
@@ -305,7 +305,7 @@ td:first-child{width:32px}
    <div class="row nw" style="margin-top:4px">แล้วเสร็จเมื่อ <input type="date" data-k="close_date"> เวลา <input type="time" data-k="close_time"> น.</div>
    <div style="margin:4px 0">และได้จัดสถานที่ทำงานให้มีสภาพเรียบร้อยแล้ว</div>
    <div class="sign sigline">
-     <div style="text-align:center; margin:6px 0 10px"><span style="background:#00ffff; padding:2px 4px; border-radius:2px; font-weight:600">ผู้ขออนุญาต หรือผู้ควบคุมงาน</span></div>
+     <div style="text-align:center; margin:6px 0 10px"><span style="background:#00ffff; padding:2px 4px; border-radius:2px; font-weight:600; font-size:13px">ผู้ขออนุญาต หรือผู้ควบคุมงาน</span></div>
      <div class="sl">ลงชื่อ <input type="text" data-k="s13" data-list="signs11"></div>
      <div class="sl d">( <input type="text" data-k="s13n"> ) <input type="date" class="signature-date" data-k="s13d" aria-label="วันที่ลงนามข้อ 13"></div>
    </div>
@@ -315,7 +315,7 @@ td:first-child{width:32px}
    <div class="row nw" style="margin-top:4px">พิจารณาปิดงานให้เมื่อ <input type="date" data-k="ok_date"> เวลา <input type="time" data-k="ok_time"> น.</div>
    <div style="margin:4px 0">&nbsp;</div>
    <div class="sign sigline">
-     <div style="text-align:center; margin:6px 0 10px"><span style="background:#ffff00; padding:2px 4px; border-radius:2px; font-weight:600">ผู้อนุญาตเข้าทำงานเจ้าของพื้นที่</span></div>
+     <div style="text-align:center; margin:6px 0 10px"><span style="background:#ffff00; padding:2px 4px; border-radius:2px; font-weight:600; font-size:13px">ผู้อนุญาตเข้าทำงานเจ้าของพื้นที่</span></div>
      <div class="sl">ลงชื่อ <input type="text" data-k="s14" data-list="owners"></div>
      <div class="sl d">( <input type="text" data-k="s14n"> ) <input type="date" class="signature-date" data-k="s14d" aria-label="วันที่ลงนามข้อ 14"></div>
    </div>
@@ -417,7 +417,7 @@ $('#workers').innerHTML = Array.from({length:ROWS},(_,i)=>`<tr><td>${i+1}</td>`+
   if (c==='name') {
     return `<td><input type="text" data-k="w${i}_name" data-list="reqpeople"></td>`;
   } else if (c==='date') {
-    return `<td><input type="date" data-k="w${i}_date" style="font-size: 11.5px; text-align: center;"></td>`;
+    return `<td><input type="date" data-k="w${i}_date" style="font-size: 13px; text-align: center;"></td>`;
   } else {
     return `<td><input type="text" data-k="w${i}_${c}"></td>`;
   }
@@ -580,22 +580,6 @@ function updateAllSignatures(isLive) {
   });
 }
 
-const autoScaleInputs = () => {
-  ['s10', 's11', 's12', 's13', 's14'].forEach(k => {
-    const el = $(`[data-k="${k}"]`);
-    if (el) {
-      const len = el.value.trim().length;
-      if (len > 24) {
-        el.style.fontSize = '9px';
-      } else if (len > 18) {
-        el.style.fontSize = '11px';
-      } else {
-        el.style.fontSize = ''; 
-      }
-    }
-  });
-};
-
 document.addEventListener('input',()=>{ 
   // ล้างวันที่ในข้อ 9 เสมอถ้าชื่อว่างเปล่า ระหว่างแก้ไขฟอร์มสดๆ
   for (let i = 0; i < ROWS; i++) {
@@ -605,18 +589,15 @@ document.addEventListener('input',()=>{
     }
   }
   updateAllSignatures(true);
-  autoScaleInputs();
   mirror(); 
   try{ localStorage.setItem('wp_f01', JSON.stringify(collect())); }catch(_){} 
 });
 document.addEventListener('change', () => {
   updateAllSignatures(true);
-  autoScaleInputs();
 });
 if(!$('[data-k="work_date"]').value) setToday();
 mirror();
 updateAllSignatures(false);
-autoScaleInputs();
 
 /* ข้อ 10 ลิงก์กับชื่อในข้อ 1 · ข้อ 11 เลือกระหว่างชื่อในข้อ 1 หรือข้อ 3 */
 let last10 = '', lastKey = '';
