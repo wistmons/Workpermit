@@ -19,7 +19,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Sarabun','Tahom
 .foot{position:absolute;left:14mm;right:14mm;bottom:8mm;display:flex;justify-content:space-between;font-size:11px;color:var(--muted)}
 h1{font-size:15px;text-align:center;margin:4px 0 0}
 .sub{text-align:center;margin:0 0 6px}
-h2{font-size:13px;margin:10px 0 3px}
+h2{font-size:13px;margin:10px 0 4px;background:#d9d9d9;padding:3px 6px;border:1px solid var(--line);font-weight:600;display:block}
 .row{display:flex;flex-wrap:wrap;gap:4px 14px;align-items:baseline;margin:2px 0}
 .cols{display:grid;grid-template-columns:1fr 1fr;gap:0 18px}
 /* ข้อ 1: จัดกรอบผู้ขออนุญาตซ้าย-ขวาเต็มความกว้าง */
@@ -50,9 +50,9 @@ td:first-child{width:32px}
 .sign{margin:6px 0 10px;text-align:center}
 .sign-top{grid-template-columns:1fr 1fr;gap:0}
 .sign-box{min-width:0;padding:4px 8px}
-.sign-box h2{margin:0 0 4px;background:#d9d9d9;padding:3px 4px;line-height:1.35}
+.sign-box h2{margin:0 0 4px;background:#d9d9d9;padding:3px 4px;line-height:1.35;border-bottom:1px solid var(--line)}
 .decision-box{margin-top:0;padding:4px 8px}
-.decision-box h2{margin:0 0 4px;background:#d9d9d9;padding:3px 4px}
+.decision-box h2{margin:0 0 4px;background:#d9d9d9;padding:3px 4px;border-bottom:1px solid var(--line)}
 .sign input{width:70%;text-align:center}
 .sign .d{font-size:12px}
 /* ข้อ 10-12: ลงชื่อ…บทบาท อยู่บรรทัดเดียว และ (ชื่อ) + วันเดือนปี อยู่อีกบรรทัดเดียว เหมือนแบบฟอร์ม PDF */
@@ -251,7 +251,7 @@ td:first-child{width:32px}
    <col style="width:5%"><col style="width:29%"><col style="width:11%">
    <col style="width:14%"><col style="width:14%"><col style="width:14%"><col style="width:13%">
   </colgroup>
-  <thead><tr><th>ลำดับที่</th><th>ชื่อ - สกุล</th><th>เลขประจำตัว</th><th>ตำแหน่ง</th><th>หน่วยงาน</th><th>ลายเซ็น</th><th>วัน/เดือน/ปี</th></tr></thead>
+  <thead><tr><th style="background:#d9d9d9">ลำดับที่</th><th style="background:#d9d9d9">ชื่อ - สกุล</th><th style="background:#d9d9d9">เลขประจำตัว</th><th style="background:#d9d9d9">ตำแหน่ง</th><th style="background:#d9d9d9">หน่วยงาน</th><th style="background:#d9d9d9">ลายเซ็น</th><th style="background:#d9d9d9">วัน/เดือน/ปี</th></tr></thead>
   <tbody id="workers"></tbody>
  </table>
  <div class="foot"><span>SP-ISO-07/F01 (หน้า2/3)</span><span>หน่วยงาน <span class="u" data-mirror="unit">………</span></span></div>
@@ -262,11 +262,33 @@ td:first-child{width:32px}
  <div class="cols sign-top">
   <div class="box sign-box">
    <h2>10. ข้าพเจ้าได้แจ้งรายละเอียด และกำหนดมาตรการความปลอดภัยสำหรับปฏิบัติงานนี้จึงขออนุญาตปฏิบัติงาน</h2>
-   <div class="sign sigline"><div class="sl">ลงชื่อ <input type="text" data-k="s10" data-list="signs10"> <span>ผู้ขออนุญาต</span></div><div class="sl d">( <input type="text" data-k="s10n"> ) <input type="date" class="signature-date" data-k="s10d" aria-label="วันที่ลงนามข้อ 10"></div></div>
+   <div class="sign sigline">
+     <div class="sl" style="flex-direction: column; align-items: stretch; gap: 2px;">
+       <div style="display: flex; align-items: baseline; gap: 4px;">
+         <span>ลงชื่อ</span>
+         <input type="text" data-k="s10" data-list="signs10" style="flex: 1; text-align: center;">
+       </div>
+       <div style="text-align: center; margin-top: 2px;">
+         <span style="font-size: 11px; font-weight: 600;">ผู้ขออนุญาต</span>
+       </div>
+     </div>
+     <div class="sl d" style="justify-content: center; margin-top: 4px;">( <input type="text" data-k="s10n"> ) <input type="date" class="signature-date" data-k="s10d" aria-label="วันที่ลงนามข้อ 10"></div>
+   </div>
   </div>
   <div class="box sign-box">
    <h2>11. ข้าพเจ้าได้ตรวจสอบมาตรการความปลอดภัยตามที่กำหนด และตรวจสอบพื้นที่ก่อนเริ่มงาน แล้ว พิจารณาเห็นว่ามีความปลอดภัยที่จะปฏิบัติงานได้</h2>
-   <div class="sign sigline"><div class="sl">ลงชื่อ <input type="text" data-k="s11" data-list="signs11"> <span>ผู้ควบคุมงาน</span></div><div class="sl d">( <input type="text" data-k="s11n"> ) <input type="date" class="signature-date" data-k="s11d" aria-label="วันที่ลงนามข้อ 11"></div></div>
+   <div class="sign sigline">
+     <div class="sl" style="flex-direction: column; align-items: stretch; gap: 2px;">
+       <div style="display: flex; align-items: baseline; gap: 4px;">
+         <span>ลงชื่อ</span>
+         <input type="text" data-k="s11" data-list="signs11" style="flex: 1; text-align: center;">
+       </div>
+       <div style="text-align: center; margin-top: 2px;">
+         <span style="background:#00ffff; padding:2px 4px; border-radius:2px; font-weight:600; font-size:11px;">ผู้ควบคุมงาน</span>
+       </div>
+     </div>
+     <div class="sl d" style="justify-content: center; margin-top: 4px;">( <input type="text" data-k="s11n"> ) <input type="date" class="signature-date" data-k="s11d" aria-label="วันที่ลงนามข้อ 11"></div>
+   </div>
   </div>
  </div>
 
@@ -274,20 +296,21 @@ td:first-child{width:32px}
  <h2>12. ข้าพเจ้าได้ตรวจสอบรายการข้างต้นด้วยตนเองและพิจารณาเห็นว่า</h2>
  <div class="row"><label class="ck"><input type="checkbox" data-k="allow"> อนุญาตให้ปฏิบัติงานได้</label>
   <label class="ck"><input type="checkbox" data-k="deny"> ไม่อนุญาตให้ปฏิบัติงานเพราะ</label><input type="text" data-k="deny_why" style="flex:1"></div>
- <div class="sign sigline ctr"><div class="sl"><span class="lb">ลงชื่อ</span> <input type="text" data-k="s12" data-list="owners"> <span>ผู้อนุญาตเข้าทำงานเจ้าของพื้นที่</span></div><div class="sl d"><span class="lb">(</span> <input type="text" data-k="s12n"> <span class="cl">) <input type="date" class="signature-date" data-k="s12d" aria-label="วันที่ลงนามข้อ 12"></span></div></div>
+ <div class="sign sigline ctr"><div class="sl"><span class="lb">ลงชื่อ</span> <input type="text" data-k="s12" data-list="owners"> <span style="background:#ffff00; padding:2px 4px; border-radius:2px; font-weight:600">ผู้อนุญาตเข้าทำงานเจ้าของพื้นที่</span></div><div class="sl d"><span class="lb">(</span> <input type="text" data-k="s12n"> <span class="cl">) <input type="date" class="signature-date" data-k="s12d" aria-label="วันที่ลงนามข้อ 12"></span></div></div>
  </div>
 
  <div class="cols">
   <div class="box">
    <b>13. ขอแจ้งปิดงาน</b>
-   <div class="row nw">แล้วเสร็จเมื่อ <input type="date" data-k="close_date"> เวลา <input type="time" data-k="close_time"> น.</div>
-   <div>และได้จัดสถานที่ทำงานให้มีสภาพเรียบร้อยแล้ว</div>
-   <div class="sign sigline"><div class="sl">ลงชื่อ <input type="text" data-k="s13" data-list="signs11"> <span>ผู้ขออนุญาต หรือผู้ควบคุมงาน</span></div><div class="sl d">( <input type="text" data-k="s13n"> ) <input type="date" class="signature-date" data-k="s13d" aria-label="วันที่ลงนามข้อ 13"></div></div>
+   <div class="row nw" style="margin-top:4px">แล้วเสร็จเมื่อ <input type="date" data-k="close_date"> เวลา <input type="time" data-k="close_time"> น.</div>
+   <div style="margin:4px 0">และได้จัดสถานที่ทำงานให้มีสภาพเรียบร้อยแล้ว</div>
+   <div class="sign sigline"><div class="sl">ลงชื่อ <input type="text" data-k="s13" data-list="signs11"> <span style="background:#00ffff; padding:2px 4px; border-radius:2px; font-weight:600">ผู้ขออนุญาต หรือผู้ควบคุมงาน</span></div><div class="sl d">( <input type="text" data-k="s13n"> ) <input type="date" class="signature-date" data-k="s13d" aria-label="วันที่ลงนามข้อ 13"></div></div>
   </div>
   <div class="box">
    <b>14. การพิจารณาปิดงาน</b>
-   <div class="row nw">พิจารณาปิดงานให้เมื่อ <input type="date" data-k="ok_date"> เวลา <input type="time" data-k="ok_time"> น.</div>
-   <div class="sign sigline" style="margin-top:34px"><div class="sl">ลงชื่อ <input type="text" data-k="s14" data-list="owners"> <span>ผู้อนุญาตเข้าทำงานเจ้าของพื้นที่</span></div><div class="sl d">( <input type="text" data-k="s14n"> ) <input type="date" class="signature-date" data-k="s14d" aria-label="วันที่ลงนามข้อ 14"></div></div>
+   <div class="row nw" style="margin-top:4px">พิจารณาปิดงานให้เมื่อ <input type="date" data-k="ok_date"> เวลา <input type="time" data-k="ok_time"> น.</div>
+   <div style="margin:4px 0">&nbsp;</div>
+   <div class="sign sigline" style="margin-top:34px"><div class="sl">ลงชื่อ <input type="text" data-k="s14" data-list="owners"> <span style="background:#ffff00; padding:2px 4px; border-radius:2px; font-weight:600">ผู้อนุญาตเข้าทำงานเจ้าของพื้นที่</span></div><div class="sl d">( <input type="text" data-k="s14n"> ) <input type="date" class="signature-date" data-k="s14d" aria-label="วันที่ลงนามข้อ 14"></div></div>
   </div>
  </div>
  <p class="note"><b>การเก็บเอกสารหลังปฏิบัติงาน</b> ต้นฉบับ : เก็บที่หน่วยงานผู้อนุญาตเข้าทำงานเจ้าของพื้นที่</p>
@@ -386,7 +409,7 @@ $('#workers').innerHTML = Array.from({length:ROWS},(_,i)=>`<tr><td>${i+1}</td>`+
   if (c==='name') {
     return `<td><input type="text" data-k="w${i}_name" data-list="reqpeople"></td>`;
   } else if (c==='date') {
-    return `<td><input type="date" data-k="w${i}_date" style="font-size: 11px; text-align: center;"></td>`;
+    return `<td><input type="date" data-k="w${i}_date" style="font-size: 11.5px; text-align: center;"></td>`;
   } else {
     return `<td><input type="text" data-k="w${i}_${c}"></td>`;
   }
