@@ -572,6 +572,22 @@ function updateAllSignatures(isLive) {
   });
 }
 
+const autoScaleInputs = () => {
+  ['s10', 's11', 's12', 's13', 's14'].forEach(k => {
+    const el = $(`[data-k="${k}"]`);
+    if (el) {
+      const len = el.value.trim().length;
+      if (len > 24) {
+        el.style.fontSize = '9px';
+      } else if (len > 18) {
+        el.style.fontSize = '11px';
+      } else {
+        el.style.fontSize = ''; 
+      }
+    }
+  });
+};
+
 document.addEventListener('input',()=>{ 
   // ล้างวันที่ในข้อ 9 เสมอถ้าชื่อว่างเปล่า ระหว่างแก้ไขฟอร์มสดๆ
   for (let i = 0; i < ROWS; i++) {
@@ -581,15 +597,18 @@ document.addEventListener('input',()=>{
     }
   }
   updateAllSignatures(true);
+  autoScaleInputs();
   mirror(); 
   try{ localStorage.setItem('wp_f01', JSON.stringify(collect())); }catch(_){} 
 });
 document.addEventListener('change', () => {
   updateAllSignatures(true);
+  autoScaleInputs();
 });
 if(!$('[data-k="work_date"]').value) setToday();
 mirror();
 updateAllSignatures(false);
+autoScaleInputs();
 
 /* ข้อ 10 ลิงก์กับชื่อในข้อ 1 · ข้อ 11 เลือกระหว่างชื่อในข้อ 1 หรือข้อ 3 */
 let last10 = '', lastKey = '';
