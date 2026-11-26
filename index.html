@@ -84,13 +84,33 @@ td:first-child{width:32px}
 #cbMenu .clr{color:#b00020}
 @media (max-width:700px){.page{width:100%;padding:10px}.cols,.grid3{grid-template-columns:1fr}.applicant-cols{grid-template-columns:1fr}.foot{position:static;margin-top:10px}}
 @media print{
- .page.p2{height:auto;min-height:297mm;overflow:visible;font-size:11.5px;line-height:1.4}
- .p2 h2{margin:6px 0 2px}.p2 td{padding:1px 2px}
- @page{size:A4;margin:0}
- body{background:#fff}.bar,.setup,.status,#cbBtn,#cbMenu{display:none!important}
- .page{margin:0;box-shadow:none;width:210mm;height:297mm;page-break-after:always;overflow:hidden}
- input,textarea{color:#000}
- td select{appearance:none;-webkit-appearance:none;color:#000}
+ @page{size:A4 portrait;margin:0}
+ html,body{width:210mm;margin:0!important;padding:0!important;background:#fff!important}
+ body{font-size:11px;line-height:1.28}
+ .bar,.setup,.status,#cbBtn,#cbMenu{display:none!important}
+ .page{
+   display:block!important;position:relative!important;
+   box-sizing:border-box!important;width:210mm!important;height:297mm!important;min-height:0!important;
+   margin:0!important;padding:8mm 10mm!important;
+   box-shadow:none!important;overflow:hidden!important;
+   break-inside:avoid!important;page-break-inside:avoid!important;
+   break-after:page!important;page-break-after:always!important;
+ }
+ .page:last-of-type{break-after:auto!important;page-break-after:auto!important}
+ .page h1{font-size:14px;margin-top:2px}
+ .page h2{font-size:11.5px;margin:5px 0 2px;line-height:1.25}
+ .page .row{gap:2px 8px;margin:1px 0}
+ .page .box{padding:3px 6px}
+ .page table{margin-top:2px}
+ .page th,.page td{padding:1px 2px}
+ .page .foot{left:10mm;right:10mm;bottom:5mm;font-size:9px}
+ .page.p2{font-size:10px;line-height:1.18;padding:7mm 9mm!important}
+ .p2 h2{font-size:10.5px;margin:3px 0 1px;line-height:1.18}
+ .p2 .grid2{gap:0 6px}
+ .p2 table{font-size:9.5px}
+ .p2 td input,.p2 th{font-size:9.5px!important;line-height:1.15}
+ .page input,.page textarea{color:#000}
+ .page td select{appearance:none;-webkit-appearance:none;color:#000}
 }
 </style>
 </head>
