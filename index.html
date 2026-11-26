@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -94,9 +93,11 @@ td:first-child{width:32px}
    margin:0!important;padding:8mm 10mm!important;
    box-shadow:none!important;overflow:hidden!important;
    break-inside:avoid!important;page-break-inside:avoid!important;
+   break-after:auto!important;page-break-after:auto!important;
+ }
+ section.page:nth-of-type(1),section.page:nth-of-type(2){
    break-after:page!important;page-break-after:always!important;
  }
- .page:last-of-type{break-after:auto!important;page-break-after:auto!important}
  .page h1{font-size:14px;margin-top:2px}
  .page h2{font-size:11.5px;margin:5px 0 2px;line-height:1.25}
  .page .row{gap:2px 8px;margin:1px 0}
@@ -540,7 +541,15 @@ document.addEventListener('input',()=>{
 document.addEventListener('change', () => {
   updateAllSignatures(true);
 });
+function setDefaultIfBlank(key, value) {
+  const el = $(`[data-k="${key}"]`);
+  if (el && !el.value) el.value = value;
+}
 if(!$('[data-k="work_date"]').value) setToday();
+setDefaultIfBlank('t_from', '08:00');
+setDefaultIfBlank('t_to', '16:00');
+setDefaultIfBlank('close_time', '16:00');
+setDefaultIfBlank('ok_time', '16:00');
 mirror();
 updateAllSignatures(false);
 
@@ -580,4 +589,3 @@ $('#rosterHint').textContent = CONFIG.people.length ? `👥 รายชื่�
 </script>
 </body>
 </html>
-```
