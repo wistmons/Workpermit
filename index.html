@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -19,7 +20,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'Sarabun','Tahom
 .foot{position:absolute;left:14mm;right:14mm;bottom:8mm;display:flex;justify-content:space-between;font-size:11px;color:var(--muted)}
 h1{font-size:15px;text-align:center;margin:4px 0 0}
 .sub{text-align:center;margin:0 0 6px}
-h2{font-size:13px;margin:10px 0 4px;background:#d9d9d9;padding:3px 6px;border:1px solid var(--line);font-weight:600;display:block}
+h2{font-size:13px;margin:10px 0 3px}
 .row{display:flex;flex-wrap:wrap;gap:4px 14px;align-items:baseline;margin:2px 0}
 .cols{display:grid;grid-template-columns:1fr 1fr;gap:0 18px}
 /* ข้อ 1: จัดกรอบผู้ขออนุญาตซ้าย-ขวาเต็มความกว้าง */
@@ -39,23 +40,24 @@ label.ck{display:inline-flex;gap:5px;align-items:flex-start;margin-right:10px}
 table{width:100%;border-collapse:collapse;margin-top:4px}
 th,td{border:1px solid var(--line);padding:2px 3px;text-align:center}
 td input{width:100%;border:0;border-bottom:1px dotted var(--line);text-align:left;min-height:24px}
-#workers td input{padding:2px 3px;text-align:center;width:100%;font-size:13px}
+#workers td input{padding:2px 3px;text-align:center;width:100%;font-size:11.5px}
 #workersTable th,#workersTable td{text-align:center;vertical-align:middle}
 #workersTable td:first-child{width:auto}
 #workersTable input{display:block;margin:0 auto;max-width:100%;white-space:nowrap}
-#workersTable td input,#workersTable th{font-size:13px;letter-spacing:0;line-height:1.35}
-.signature-date{width:112px;max-width:42%;font:inherit;font-size:13px;text-align:center;color:#111;-webkit-text-fill-color:#111;background:transparent;border:0;border-bottom:1px dotted var(--line);padding:0 1px}
+#workersTable td input,#workersTable th{font-size:11.5px;letter-spacing:0;line-height:1.35}
+.signature-date{width:112px;max-width:42%;font:inherit;font-size:11px;text-align:center;color:#111;-webkit-text-fill-color:#111;background:transparent;border:0;border-bottom:1px dotted var(--line);padding:0 1px}
+@media print{#workersTable td input,#workersTable th{font-size:11.5px}.signature-date{appearance:none;-webkit-appearance:none;width:92px;font-size:11.5px}}
 td select{color:#111;-webkit-text-fill-color:#111;width:100%;border:0;background:transparent;font:inherit;padding:2px 0;cursor:pointer}
 td:first-child{width:32px}
 .sign{margin:6px 0 10px;text-align:center}
-.sign-top{grid-template-columns:1fr 1fr;gap:0}
+.sign-top{grid-template-columns:1fr 1fr;gap:0 18px}
 .sign-box{min-width:0;padding:4px 8px}
-.sign-box h2{margin:0 0 4px;background:#d9d9d9;padding:3px 4px;line-height:1.35;border-bottom:1px solid var(--line)}
+.sign-box h2{margin:0 0 4px;background:#d9d9d9;padding:3px 4px;line-height:1.35}
 .decision-box{margin-top:0;padding:4px 8px}
-.decision-box h2{margin:0 0 4px;background:#d9d9d9;padding:3px 4px;border-bottom:1px solid var(--line)}
+.decision-box h2{margin:0 0 4px;background:#d9d9d9;padding:3px 4px}
 .sign input{width:70%;text-align:center}
 .sign .d{font-size:12px}
-/* ข้อ 10-12: ลงชื่อ…บทบาท อยู่บรรทัดเดียว และ (ชื่อ) + วันเดือนปี อยู่อีกบรรทัดเดียว เหมือนแบบฟอร์ม PDF */
+/* ข้อ 10-14: ลงชื่อ…บทบาท อยู่บรรทัดเดียว และ (ชื่อ) + วันเดือนปี อยู่อีกบรรทัดเดียว เหมือนแบบฟอร์ม PDF */
 .sigline{text-align:left}
 .sigline .sl{display:flex;align-items:baseline;gap:4px;flex-wrap:nowrap;white-space:nowrap}
 .sigline .sl+.sl{margin-top:4px}
@@ -80,62 +82,15 @@ td:first-child{width:32px}
 #cbMenu div:hover{background:#eaf3ff}
 #cbMenu small{color:var(--muted);margin-left:6px}
 #cbMenu .clr{color:#b00020}
-@media (max-width:700px){.page{width:100%;padding:10px} .cols,.grid3{grid-template-columns:1fr} .applicant-cols{grid-template-columns:1fr} .foot{position:static;margin-top:10px}}
-
+@media (max-width:700px){.page{width:100%;padding:10px}.cols,.grid3{grid-template-columns:1fr}.applicant-cols{grid-template-columns:1fr}.foot{position:static;margin-top:10px}}
 @media print{
-  /* กำหนดการพิมพ์ A4 ให้สวยเนี๊ยบเหมือนหน้าจอ 100% ตรงตามดีไซน์ */
-  * {
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
-  }
-  body{
-    background:#fff;
-    margin:0;
-    padding:0;
-  }
-  .bar,.setup,.status,#cbBtn,#cbMenu{
-    display:none!important;
-  }
-  .page{
-    margin:0 !important;
-    box-shadow:none !important;
-    border:none !important;
-    width:210mm !important;
-    height:297mm !important;
-    page-break-after:always !important;
-    page-break-inside:avoid !important;
-    overflow:hidden !important;
-    box-sizing:border-box !important;
-    padding:12mm 14mm !important;
-    background:#fff !important;
-  }
-  input,textarea{
-    color:#000 !important;
-    -webkit-text-fill-color:#000 !important;
-    border:0 !important;
-    border-bottom:1px dotted var(--line) !important;
-    background:transparent !important;
-    opacity:1 !important;
-  }
-  /* ซ่อนปุ่มปฏิทินและเวลาของบราว์เซอร์ในการสั่งพิมพ์ เพื่อความสวยงามกลมกลืน */
-  input[type="date"]::-webkit-calendar-picker-indicator,
-  input[type="time"]::-webkit-calendar-picker-indicator {
-    display: none !important;
-    -webkit-appearance: none;
-    margin: 0;
-  }
-  td select{
-    appearance:none;
-    -webkit-appearance:none;
-    color:#000 !important;
-  }
-  #workersTable td input,#workersTable th{
-    font-size:13px !important;
-  }
-  .signature-date{
-    width:92px !important;
-    font-size:13px !important;
-  }
+ .page.p2{height:auto;min-height:297mm;overflow:visible;font-size:11.5px;line-height:1.4}
+ .p2 h2{margin:6px 0 2px}.p2 td{padding:1px 2px}
+ @page{size:A4;margin:0}
+ body{background:#fff}.bar,.setup,.status,#cbBtn,#cbMenu{display:none!important}
+ .page{margin:0;box-shadow:none;width:210mm;height:297mm;page-break-after:always;overflow:hidden}
+ input,textarea{color:#000}
+ td select{appearance:none;-webkit-appearance:none;color:#000}
 }
 </style>
 </head>
@@ -243,7 +198,7 @@ td:first-child{width:32px}
   ⚫ ถังขยะรีไซเคิล รองรับขยะที่นำกลับมาใช้หรือขายได้ เช่น แก้ว กระดาษ พลาสติก โลหะ<br>
   ⚫ กรณีงานก่อสร้าง / งานบำรุงรักษา ที่อาจเกิดการรั่วไหล เช่น น้ำมันหม้อแปลง สารเคมี ต้องจัดเตรียมภาชนะรองรับการหกรั่วไหลและจัดเก็บหลังการปฏิบัติงานแล้วเสร็จ</div>
  <div id="measList2"></div>
- <div class="row"><label class="ck"><input type="checkbox" data-k="meas_other_ck"></label>มาตรการด้านความปลอดภัยอื่นๆ เพิ่มเติม : <input type="text" data-k="meas_other" style="flex:1"></div>
+ <div class="row"><label class="ck"><input type="checkbox" data-k="meas_other_ck"> มาตรการด้านความปลอดภัยอื่นๆ เพิ่มเติม :</label> <input type="text" data-k="meas_other" style="flex:1"></div>
 
  <h2>9. รายชื่อผู้ปฏิบัติงานที่ขออนุญาตเข้าพื้นที่ควบคุม/พื้นที่หวงห้าม</h2>
  <table id="workersTable">
@@ -251,7 +206,7 @@ td:first-child{width:32px}
    <col style="width:5%"><col style="width:29%"><col style="width:11%">
    <col style="width:14%"><col style="width:14%"><col style="width:14%"><col style="width:13%">
   </colgroup>
-  <thead><tr><th style="background:#d9d9d9">ลำดับที่</th><th style="background:#d9d9d9">ชื่อ - สกุล</th><th style="background:#d9d9d9">เลขประจำตัว</th><th style="background:#d9d9d9">ตำแหน่ง</th><th style="background:#d9d9d9">หน่วยงาน</th><th style="background:#d9d9d9">ลายเซ็น</th><th style="background:#d9d9d9">วัน/เดือน/ปี</th></tr></thead>
+  <thead><tr><th>ลำดับที่</th><th>ชื่อ - สกุล</th><th>เลขประจำตัว</th><th>ตำแหน่ง</th><th>หน่วยงาน</th><th>ลายเซ็น</th><th>วัน/เดือน/ปี</th></tr></thead>
   <tbody id="workers"></tbody>
  </table>
  <div class="foot"><span>SP-ISO-07/F01 (หน้า2/3)</span><span>หน่วยงาน <span class="u" data-mirror="unit">………</span></span></div>
@@ -262,33 +217,11 @@ td:first-child{width:32px}
  <div class="cols sign-top">
   <div class="box sign-box">
    <h2>10. ข้าพเจ้าได้แจ้งรายละเอียด และกำหนดมาตรการความปลอดภัยสำหรับปฏิบัติงานนี้จึงขออนุญาตปฏิบัติงาน</h2>
-   <div class="sign sigline">
-     <div class="sl" style="flex-direction: column; align-items: stretch; gap: 2px;">
-       <div style="display: flex; align-items: baseline; gap: 4px;">
-         <span>ลงชื่อ</span>
-         <input type="text" data-k="s10" data-list="signs10" style="flex: 1; text-align: center;">
-       </div>
-       <div style="text-align: center; margin-top: 2px;">
-         <span style="font-size: 13px; font-weight: 600;">ผู้ขออนุญาต</span>
-       </div>
-     </div>
-     <div class="sl d" style="justify-content: center; margin-top: 4px;">( <input type="text" data-k="s10n"> ) <input type="date" class="signature-date" data-k="s10d" aria-label="วันที่ลงนามข้อ 10"></div>
-   </div>
+   <div class="sign sigline"><div class="sl">ลงชื่อ <input type="text" data-k="s10"> <span>ผู้ขออนุญาต</span></div><div class="sl d">( <input type="text" data-k="s10n" data-list="signs10"> ) <input type="date" class="signature-date" data-k="s10d" aria-label="วันที่ลงนามข้อ 10"></div></div>
   </div>
   <div class="box sign-box">
    <h2>11. ข้าพเจ้าได้ตรวจสอบมาตรการความปลอดภัยตามที่กำหนด และตรวจสอบพื้นที่ก่อนเริ่มงาน แล้ว พิจารณาเห็นว่ามีความปลอดภัยที่จะปฏิบัติงานได้</h2>
-   <div class="sign sigline">
-     <div class="sl" style="flex-direction: column; align-items: stretch; gap: 2px;">
-       <div style="display: flex; align-items: baseline; gap: 4px;">
-         <span>ลงชื่อ</span>
-         <input type="text" data-k="s11" data-list="signs11" style="flex: 1; text-align: center;">
-       </div>
-       <div style="text-align: center; margin-top: 2px;">
-         <span style="background:#00ffff; padding:2px 4px; border-radius:2px; font-weight:600; font-size:13px;">ผู้ควบคุมงาน</span>
-       </div>
-     </div>
-     <div class="sl d" style="justify-content: center; margin-top: 4px;">( <input type="text" data-k="s11n"> ) <input type="date" class="signature-date" data-k="s11d" aria-label="วันที่ลงนามข้อ 11"></div>
-   </div>
+   <div class="sign sigline"><div class="sl">ลงชื่อ <input type="text" data-k="s11"> <span>ผู้ควบคุมงาน</span></div><div class="sl d">( <input type="text" data-k="s11n" data-list="signs11"> ) <input type="date" class="signature-date" data-k="s11d" aria-label="วันที่ลงนามข้อ 11"></div></div>
   </div>
  </div>
 
@@ -296,32 +229,27 @@ td:first-child{width:32px}
  <h2>12. ข้าพเจ้าได้ตรวจสอบรายการข้างต้นด้วยตนเองและพิจารณาเห็นว่า</h2>
  <div class="row"><label class="ck"><input type="checkbox" data-k="allow"> อนุญาตให้ปฏิบัติงานได้</label>
   <label class="ck"><input type="checkbox" data-k="deny"> ไม่อนุญาตให้ปฏิบัติงานเพราะ</label><input type="text" data-k="deny_why" style="flex:1"></div>
- <div class="sign sigline ctr"><div class="sl"><span class="lb">ลงชื่อ</span> <input type="text" data-k="s12" data-list="owners"> <span style="background:#ffff00; padding:2px 4px; border-radius:2px; font-weight:600">ผู้อนุญาตเข้าทำงานเจ้าของพื้นที่</span></div><div class="sl d"><span class="lb">(</span> <input type="text" data-k="s12n"> <span class="cl">) <input type="date" class="signature-date" data-k="s12d" aria-label="วันที่ลงนามข้อ 12"></span></div></div>
+ <div class="sign sigline ctr"><div class="sl"><span class="lb">ลงชื่อ</span> <input type="text" data-k="s12"> <span>ผู้อนุญาตเข้าทำงานเจ้าของพื้นที่</span></div><div class="sl d"><span class="lb">(</span> <input type="text" data-k="s12n" data-list="owners"> <span class="cl">) <input type="date" class="signature-date" data-k="s12d" aria-label="วันที่ลงนามข้อ 12"></span></div></div>
  </div>
 
  <div class="cols sign-top">
-  <div class="box sign-box">
-   <h2>13. ขอแจ้งปิดงาน</h2>
-   <div class="row nw" style="margin-top:4px">แล้วเสร็จเมื่อ <input type="date" data-k="close_date"> เวลา <input type="time" data-k="close_time"> น.</div>
-   <div style="margin:4px 0">และได้จัดสถานที่ทำงานให้มีสภาพเรียบร้อยแล้ว</div>
-   <div class="sign sigline">
-     <div style="text-align:center; margin:6px 0 10px"><span style="background:#00ffff; padding:2px 4px; border-radius:2px; font-weight:600; font-size:13px">ผู้ขออนุญาต หรือผู้ควบคุมงาน</span></div>
-     <div class="sl">ลงชื่อ <input type="text" data-k="s13" data-list="signs11"></div>
-     <div class="sl d">( <input type="text" data-k="s13n"> ) <input type="date" class="signature-date" data-k="s13d" aria-label="วันที่ลงนามข้อ 13"></div>
+  <div class="box sign-box" style="display:flex;flex-direction:column;justify-content:space-between">
+   <div>
+    <h2>13. ขอแจ้งปิดงาน</h2>
+    <div class="row nw" style="margin-top:4px">แล้วเสร็จเมื่อ <input type="date" data-k="close_date"> เวลา <input type="time" data-k="close_time"> น.</div>
+    <div style="margin-top:2px">และได้จัดสถานที่ทำงานให้มีสภาพเรียบร้อยแล้ว</div>
    </div>
+   <div class="sign sigline" style="margin-top:10px"><div class="sl">ลงชื่อ <input type="text" data-k="s13"> <span>ผู้ขออนุญาต หรือผู้ควบคุมงาน</span></div><div class="sl d">( <input type="text" data-k="s13n" data-list="signs11"> ) <input type="date" class="signature-date" data-k="s13d" aria-label="วันที่ลงนามข้อ 13"></div></div>
   </div>
-  <div class="box sign-box">
-   <h2>14. การพิจารณาปิดงาน</h2>
-   <div class="row nw" style="margin-top:4px">พิจารณาปิดงานให้เมื่อ <input type="date" data-k="ok_date"> เวลา <input type="time" data-k="ok_time"> น.</div>
-   <div style="margin:4px 0">&nbsp;</div>
-   <div class="sign sigline">
-     <div style="text-align:center; margin:6px 0 10px"><span style="background:#ffff00; padding:2px 4px; border-radius:2px; font-weight:600; font-size:13px">ผู้อนุญาตเข้าทำงานเจ้าของพื้นที่</span></div>
-     <div class="sl">ลงชื่อ <input type="text" data-k="s14" data-list="owners"></div>
-     <div class="sl d">( <input type="text" data-k="s14n"> ) <input type="date" class="signature-date" data-k="s14d" aria-label="วันที่ลงนามข้อ 14"></div>
+  <div class="box sign-box" style="display:flex;flex-direction:column;justify-content:space-between">
+   <div>
+    <h2>14. การพิจารณาปิดงาน</h2>
+    <div class="row nw" style="margin-top:4px">พิจารณาปิดงานให้เมื่อ <input type="date" data-k="ok_date"> เวลา <input type="time" data-k="ok_time"> น.</div>
    </div>
+   <div class="sign sigline" style="margin-top:10px"><div class="sl">ลงชื่อ <input type="text" data-k="s14"> <span>ผู้อนุญาตเข้าทำงานเจ้าของพื้นที่</span></div><div class="sl d">( <input type="text" data-k="s14n" data-list="owners"> ) <input type="date" class="signature-date" data-k="s14d" aria-label="วันที่ลงนามข้อ 14"></div></div>
   </div>
  </div>
- <p class="note"><b>การเก็บเอกสารหลังปฏิบัติงาน</b> ต้นฉบับ : เก็บที่หน่วยงานผู้อนุญาตเข้าทำงานเจ้าของพื้นที่</p>
+ <p class="note" style="margin-top:6px"><b>การเก็บเอกสารหลังปฏิบัติงาน</b> ต้นฉบับ : เก็บที่หน่วยงานผู้อนุญาตเข้าทำงานเจ้าของพื้นที่</p>
  <div class="foot"><span>SP-ISO-07/F01 (หน้า3/3)</span><span>หน่วยงาน <span class="u" data-mirror="unit">………</span></span></div>
 </section>
 
@@ -412,12 +340,12 @@ ckList($('#ppeList'), PPE, 'ppe'); ckList($('#measList'), MEAS1, 'm1_'); ckList(
 $$('#measList label,#measList2 label').forEach(l=>l.style.display='flex');
 const NAME_OPTS = '<option value="">— ว่าง —</option>' + CONFIG.people.filter(p=>p.unit===REQ_UNIT).map(p=>`<option value="${p.name}">${p.name}</option>`).join('');
 
-// แก้ไขตารางข้อ 9: ปรับช่องวันเดือนปีให้เป็นชนิด date เพื่อให้เลือกเหมือนข้ออื่น และปรับ Font ในตารางให้มีขนาดเท่ากันอย่างเหมาะสม
+// ตารางข้อ 9: ใช้ input date และปรับขนาดฟอนต์ 11.5px ให้เท่ากัน
 $('#workers').innerHTML = Array.from({length:ROWS},(_,i)=>`<tr><td>${i+1}</td>`+['name','id','pos','unit','sign','date'].map(c=> {
   if (c==='name') {
     return `<td><input type="text" data-k="w${i}_name" data-list="reqpeople"></td>`;
   } else if (c==='date') {
-    return `<td><input type="date" data-k="w${i}_date" style="font-size: 13px; text-align: center;"></td>`;
+    return `<td><input type="date" data-k="w${i}_date" style="font-size: 11px; text-align: center;"></td>`;
   } else {
     return `<td><input type="text" data-k="w${i}_${c}"></td>`;
   }
@@ -440,7 +368,7 @@ function refreshLists(){
 $('#selDept').onchange = e => { setVal('unit', e.target.value); refreshLists(); mirror(); };
 $('#selPlace').onchange = e => { setVal('work_place', e.target.value); refreshOwner(e.target.value); };
 /* ผู้อนุญาตเข้าทำงานเจ้าของพื้นที่: ดึงจากรายชื่อที่ "ประจำ สฟ." ตรงกับสถานที่ */
-function setOwner(n){ setVal('s12', n); setVal('s14', n); setVal('s12n', ''); setVal('s14n', ''); document.dispatchEvent(new Event('input')); }
+function setOwner(n){ setVal('s12n', n); setVal('s14n', n); document.dispatchEvent(new Event('input')); }
 function refreshOwner(pl){
   const own = CONFIG.people.filter(p=>p.st), hit = own.filter(p=>p.st && p.st===pl), sel=$('#selOwner'), hint=$('#ownerHint');
   fill(sel, (hit.length?hit:own).map(p=>p.name), '— เลือก —');
@@ -455,12 +383,31 @@ refreshOwner('');
 const thaiTodayISO = () => { const d=new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; };
 
 $('#selGroup').onchange = e => {
-  if(e.target.value==='C42'){ if(!$('[data-k="unit"]').value){ setVal('unit', REQ_UNIT); mirror(); } return; } /* C42: เลือกรายชื่อ/จำนวนเอง ไม่เติมอัตโนมัติ */
+  if(e.target.value==='C42'){ if(!$('[data-k="unit"]').value){ setVal('unit', REQ_UNIT); mirror(); } return; }
   const m = CONFIG.groups[e.target.value] || [];
   for(let i=0;i<ROWS;i++){ const p=m[i]||{}; setVal(`w${i}_name`,p.name); setVal(`w${i}_id`,p.id); setVal(`w${i}_pos`,p.pos); setVal(`w${i}_unit`,p.unit); setVal(`w${i}_date`, p.name? thaiTodayISO():''); }
   setVal('cnt_egat', m.length || '');
   if(m[0] && !$('[data-k="unit"]').value){ setVal('unit', m[0].unit); mirror(); }
 };
+
+/* ควบคุมการสแตมป์วันที่และล้างข้อมูลเมื่อลบชื่อ (ปล่อยช่องวงเล็บ s10n-s14n ว่างไว้) */
+function updateAllSignatures(isLive) {
+  ['10', '11', '12', '13', '14'].forEach(num => {
+    const sigVal = ($(`[data-k="s${num}n"]`)?.value || '').trim();
+    const sigNameEl = $(`[data-k="s${num}n"]`);
+    let dateKey = `s${num}d`;
+    const dateEl = $(`[data-k="${dateKey}"]`);
+
+    if (!sigVal) {
+      if (sigNameEl && sigNameEl.value !== '') setVal(`s${num}n`, '');
+      if (dateEl && dateEl.value !== '') setVal(dateKey, '');
+    } else {
+      if (isLive && dateEl && dateEl.value === '') {
+        setVal(dateKey, thaiTodayISO());
+      }
+    }
+  });
+}
 
 /* พิมพ์/เลือกชื่อ แล้วเติมเลขประจำตัว ตำแหน่ง หน่วยงานให้เอง */
 const autofill = e => {
@@ -468,7 +415,7 @@ const autofill = e => {
   const val = (e.target.value || '').trim();
   let m;
 
-  // ถ้าลบชื่อจนว่างเปล่า ให้ล้างข้อมูลและวันที่ในแถวนั้นให้ว่างเปล่าด้วย
+  // ถ้าลบชื่อหรือไม่มีข้อมูล ชื่อ-สกุล แนวนอนด้านซ้ายของตารางข้อ 9 ให้ปล่อยช่องข้อมูลรวมถึง วัน/เดือน/ปี ว่างไว้
   if (m = k.match(/^w(\d+)_name$/)) {
     if (!val) {
       const i = m[1];
@@ -479,7 +426,7 @@ const autofill = e => {
   }
 
   const p = byName[e.target.value];
-  if(!p){ /* ลบข้อความ / เลือก "ว่าง" → ล้างช่องที่เติมอัตโนมัติ */
+  if(!p){
     if(val===''){
       if(k==='req_name') ['req_id','req_pos','req_dept','req_div','req_dep'].forEach(c=>setVal(c,''));
       else if(k==='sup_name') ['sup_id','sup_pos','sup_dept','sup_div','sup_dep'].forEach(c=>setVal(c,''));
@@ -491,12 +438,13 @@ const autofill = e => {
   if(m = k.match(/^w(\d+)_name$/)){ const i=m[1]; setVal(`w${i}_id`,p.id); setVal(`w${i}_pos`,p.pos); setVal(`w${i}_unit`,p.unit); setVal(`w${i}_date`,thaiTodayISO()); }
   else if(k==='req_name'){ setVal('req_id',p.id); setVal('req_pos',p.pos); setVal('req_dept',p.unit); setVal('req_div',p.div); setVal('req_dep',p.dep); }
   else if(k==='sup_name'){ setVal('sup_id',p.id); setVal('sup_pos',p.pos); setVal('sup_dept',p.unit); setVal('sup_div',p.div); setVal('sup_dep',p.dep); }
-  else if(m = k.match(/^s(12|14)$/)){ setVal('s'+m[1], p.name); }
+  else if(m = k.match(/^s(12|14)n$/)){ setVal('s'+m[1]+'n', p.name); }
   else return;
   document.dispatchEvent(new Event('input'));
 };
 document.addEventListener('change', autofill); document.addEventListener('input', autofill);
-/* ===== dropdown ของช่องชื่อ: คลิกเห็นรายชื่อทั้งหมด / พิมพ์เพื่อกรอง / ลบข้อความได้ปกติ ===== */
+
+/* ===== dropdown ของช่องชื่อ ===== */
 const cbBtn=$('#cbBtn'), cbMenu=$('#cbMenu'); let cbT=null, cbPick=false;
 const isCb = t => t && t.dataset && t.dataset.list;
 const cbClose = () => { cbMenu.style.display='none'; };
@@ -534,13 +482,14 @@ function setToday(){ const d=new Date(), p=n=>String(n).padStart(2,'0'); setVal(
 const collect = () => Object.fromEntries($$('[data-k]').map(e=>[e.dataset.k, e.type==='checkbox'? e.checked : e.value]));
 const apply = o => { 
   Object.entries(o).forEach(([k,v])=>setVal(k,v)); 
-  // ตรวจสอบและบังคับให้ช่อง วัน/เดือน/ปี ของข้อ 9 ว่างเปล่าหากช่อง ชื่อ-สกุล ด้านซ้ายเป็นค่าว่าง
+  // เคลียร์วันที่ข้อ 9 หากชื่อเป็นค่าว่าง
   for (let i = 0; i < ROWS; i++) {
     const nameVal = $(`[data-k="w${i}_name"]`)?.value || '';
     if (!nameVal.trim()) {
       setVal(`w${i}_date`, '');
     }
   }
+  updateAllSignatures(false);
   mirror(); 
 };
 function saveData(){
@@ -551,37 +500,13 @@ $('#f').onchange = e => { const r=new FileReader(); r.onload=()=>{ try{ apply(JS
 function clearJob(){
   const keep = /^(dept|group|place|unit|req_|cnt_egat|sup_|w\d+_)/;
   $$('[data-k]').forEach(e=>{ if(!keep.test(e.dataset.k)){ e.type==='checkbox'? e.checked=false : e.value=''; } });
-  /* ล้างวันที่/เวลาทุกช่อง (วว/ดด/ปป และเวลา) ให้ว่าง เพื่อพิมพ์เองได้ */
   $$('[data-k]').forEach(e=>{ if(e.type==='date' || e.type==='time' || /^w\d+_date$/.test(e.dataset.k)) e.value=''; });
-  updateSigns(); document.dispatchEvent(new Event('input')); toast('ล้างช่องงานแล้ว');
+  updateSigns(); updateAllSignatures(false); document.dispatchEvent(new Event('input')); toast('ล้างช่องงานแล้ว');
 }
 
 /* เก็บอัตโนมัติในเบราว์เซอร์นี้ */
 try{ const s=localStorage.getItem('wp_f01'); if(s) apply(JSON.parse(s)); }catch(_){}
-
-function updateAllSignatures(isLive) {
-  ['10', '11', '12', '13', '14'].forEach(num => {
-    const sigVal = ($(`[data-k="s${num}"]`)?.value || '').trim();
-    const sigNameEl = $(`[data-k="s${num}n"]`);
-    let dateKey = `s${num}d`;
-    if (num === '13') dateKey = 'close_date';
-    if (num === '14') dateKey = 'ok_date';
-    const dateEl = $(`[data-k="${dateKey}"]`);
-
-    if (!sigVal) {
-      if (sigNameEl && sigNameEl.value !== '') setVal(`s${num}n`, '');
-      if (dateEl && dateEl.value !== '') setVal(dateKey, '');
-    } else {
-      // ปล่อยว่างช่องวงเล็บ (s10n ถึง s14n) ทุกข้อโดยไม่มีการกรอกอัตโนมัติ เพื่อความสะดวกในการระบุเองหน้างาน
-      if (isLive && dateEl && dateEl.value === '') {
-        setVal(dateKey, thaiTodayISO());
-      }
-    }
-  });
-}
-
 document.addEventListener('input',()=>{ 
-  // ล้างวันที่ในข้อ 9 เสมอถ้าชื่อว่างเปล่า ระหว่างแก้ไขฟอร์มสดๆ
   for (let i = 0; i < ROWS; i++) {
     const nameVal = $(`[data-k="w${i}_name"]`)?.value || '';
     if (!nameVal.trim()) {
@@ -599,16 +524,16 @@ if(!$('[data-k="work_date"]').value) setToday();
 mirror();
 updateAllSignatures(false);
 
-/* ข้อ 10 ลิงก์กับชื่อในข้อ 1 · ข้อ 11 เลือกระหว่างชื่อในข้อ 1 หรือข้อ 3 */
+/* ข้อ 10 ลิงก์กับชื่อในข้อ 1 · ข้อ 11 และ 13 เลือกระหว่างชื่อในข้อ 1 หรือข้อ 3 */
 let last10 = '', lastKey = '';
 function updateSigns(){
   const v = k => ($(`[data-k="${k}"]`).value || '').trim();
   const n1 = [v('req_name'), v('con_name')].filter(Boolean), n3 = [v('sup_name'), v('supc_name')].filter(Boolean);
   const opt = (n, t) => `<option value="${n}">${t}</option>`;
   $('#signs10').innerHTML = (n1.length ? n1.map(n=>opt(n,'ข้อ 1')) : CONFIG.people.filter(p=>p.unit===REQ_UNIT).map(p=>opt(p.name,p.pos))).join('');
-  const n10 = v('s10') ? [v('s10')] : [];
+  const n10 = v('s10n') ? [v('s10n')] : [];
   $('#signs11').innerHTML = [...n10.map(n=>opt(n,'ข้อ 10 ผู้ขออนุญาต')), ...n3.map(n=>opt(n,'ข้อ 3 ผู้ควบคุมงาน'))].join('');
-  const e = $('[data-k="s10"]'); let changed = false; const key = n1.join('|');
+  const e = $('[data-k="s10n"]'); let changed = false; const key = n1.join('|');
   if(key===lastKey) return; lastKey = key;
   if(n1.length===1 && (!e.value || e.value===last10) && e.value!==n1[0]){ e.value = n1[0]; last10 = n1[0]; changed = true; }
   else if(n1.length===0 && e.value && e.value===last10){ e.value = ''; last10 = ''; changed = true; }
@@ -635,3 +560,4 @@ $('#rosterHint').textContent = CONFIG.people.length ? `👥 รายชื่�
 </script>
 </body>
 </html>
+```
