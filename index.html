@@ -114,15 +114,36 @@ td:first-child{width:32px}
  .page input,.page textarea{color:#000}
  .page td select{appearance:none;-webkit-appearance:none;color:#000}
 }
+/* ===== หน้าเข้าสู่ระบบด้วยรหัสพนักงาน ===== */
+body.locked > *:not(#gate):not(script):not(datalist){visibility:hidden}
+#gate{position:fixed;inset:0;z-index:99999;background:#e6e8eb;display:flex;align-items:center;justify-content:center;padding:16px}
+#gate[hidden]{display:none}
+.gbox{background:#fff;color:#111;border-radius:12px;padding:24px;width:100%;max-width:340px;box-shadow:0 2px 16px rgba(0,0,0,.2);text-align:center}
+.gbox h2{margin:0 0 4px;font-size:18px}
+.gbox input{width:100%;font:inherit;font-size:18px;text-align:center;padding:8px;margin:14px 0 10px;border:1px solid #888;border-radius:8px;background:#fff;color:#111}
+.gbox button{width:100%;font:inherit;border:0;border-radius:8px;padding:10px;background:#1f4e79;color:#fff;cursor:pointer}
+#gateMsg{min-height:20px;margin-top:8px;color:#b00020;font-size:13px}
+@media (prefers-color-scheme:dark){#gate{background:#15181c}}
+@media print{#gate{display:none}}
 </style>
 </head>
-<body>
+<body class="locked">
+<div id="gate" role="dialog" aria-modal="true" aria-labelledby="gateT">
+ <div class="gbox">
+  <h2 id="gateT">เข้าสู่ระบบ</h2>
+  <div class="note">กรอกรหัสพนักงานเพื่อเข้าใช้งานแบบฟอร์ม Work Permit</div>
+  <input id="gateId" type="text" inputmode="numeric" autocomplete="off" placeholder="รหัสพนักงาน" aria-label="รหัสพนักงาน">
+  <button id="gateBtn" type="button">เข้าสู่ระบบ</button>
+  <div id="gateMsg" role="alert"></div>
+ </div>
+</div>
 
 <div class="bar">
  <button onclick="saveData()">💾 บันทึกไฟล์</button>
  <button onclick="document.getElementById('f').click()">⤵ โหลดไฟล์</button>
  <button onclick="clearJob()">🧹 ล้างเฉพาะช่องงาน</button>
  <button onclick="window.print()">🖨️ พิมพ์ / บันทึก PDF</button>
+ <button id="logoutBtn" style="display:none" onclick="logout()">🚪 ออกจากระบบ</button>
  <button class="rosterBtn" onclick="document.getElementById('rosterFile').click()">👥 นำเข้ารายชื่อ</button>
  <button class="rosterBtn" onclick="clearRoster()">🗑 ลบรายชื่อในเครื่อง</button>
  <input type="file" id="f" accept=".json" hidden>
@@ -422,21 +443,27 @@ $('#selGroup').onchange = e => {
 };
 
 /* ควบคุมการสแตมป์วันที่และล้างข้อมูลเมื่อลบชื่อ (ปล่อยช่องวงเล็บ s10n-s14n ว่างไว้) */
+/* วันที่/เวลาผูกกับชื่อผู้ลงนาม: มีชื่อ → เติมค่าเริ่มต้น · ไม่มีชื่อหรือลบชื่อออก → ว่าง */
+const sigHad = {};
+const SIG_LINKED = { '13': {close_date:'today', close_time:'16:00'}, '14': {ok_date:'today', ok_time:'16:00'} };
 function updateAllSignatures(isLive) {
   ['10', '11', '12', '13', '14'].forEach(num => {
-    const sigVal = ($(`[data-k="s${num}n"]`)?.value || '').trim();
     const sigNameEl = $(`[data-k="s${num}n"]`);
-    let dateKey = `s${num}d`;
-    const dateEl = $(`[data-k="${dateKey}"]`);
-
-    if (!sigVal) {
+    const sigVal = (sigNameEl?.value || '').trim();
+    const dateKey = `s${num}d`, dateEl = $(`[data-k="${dateKey}"]`);
+    const has = !!sigVal;
+    if (!has) {
       if (sigNameEl && sigNameEl.value !== '') setVal(`s${num}n`, '');
-      if (dateEl && dateEl.value !== '' && !['10','12','13','14'].includes(num)) setVal(dateKey, '');  /* ข้อ 10,12,13,14 คงวันที่เริ่มต้นไว้แม้ยังไม่มีชื่อ */
-    } else {
-      if (isLive && dateEl && dateEl.value === '') {
-        setVal(dateKey, thaiTodayISO());
-      }
+      if (dateEl && dateEl.value !== '') setVal(dateKey, '');
+    } else if (isLive && dateEl && dateEl.value === '') {
+      setVal(dateKey, thaiTodayISO());
     }
+    const link = SIG_LINKED[num];
+    if (link) {
+      if (has && !sigHad[num] && isLive) Object.entries(link).forEach(([k, v]) => { const e = $(`[data-k="${k}"]`); if (e && !e.value) e.value = (v === 'today' ? thaiTodayISO() : v); });
+      if (!has && sigHad[num]) Object.keys(link).forEach(k => setVal(k, ''));
+    }
+    sigHad[num] = has;
   });
 }
 
@@ -532,7 +559,7 @@ function clearJob(){
   const keep = /^(dept|group|place|unit|req_|cnt_egat|sup_|w\d+_)/;
   $$('[data-k]').forEach(e=>{ if(!keep.test(e.dataset.k)){ e.type==='checkbox'? e.checked=false : e.value=''; } });
   $$('[data-k]').forEach(e=>{ if(e.type==='date' || e.type==='time' || /^w\d+_date$/.test(e.dataset.k)) e.value=''; });
-  applyDefaults(); updateSigns(); updateAllSignatures(false); document.dispatchEvent(new Event('input')); toast('ล้างช่องงานแล้ว');
+  applyDefaults(true); updateSigns(); updateAllSignatures(false); document.dispatchEvent(new Event('input')); toast('ล้างช่องงานแล้ว');
 }
 
 /* เก็บอัตโนมัติในเบราว์เซอร์นี้ */
@@ -556,15 +583,19 @@ function setDefaultIfBlank(key, value) {
   if (el && !el.value) el.value = value;
 }
 /* ค่าเริ่มต้น (แก้ไขได้ทุกช่อง): วันที่ = วันนี้ ที่ข้อ 4, 10, 12, 13, 14 · เวลา 08:00–16:00 ที่ข้อ 4 · เวลา 16:00 ที่ข้อ 13 และ 14 */
-const DEF_DATES = ['work_date','close_date','ok_date','s10d','s12d','s13d','s14d'];
-const DEF_TIMES = { t_from:'08:00', t_to:'16:00', close_time:'16:00', ok_time:'16:00' };
-function applyDefaults(){
+const ALL_DATES = ['work_date','close_date','ok_date','s10d','s11d','s12d','s13d','s14d'];
+const DEF_TIMES = { t_from:'08:00', t_to:'16:00' };   /* ข้อ 13/14 เติมเมื่อเลือกผู้ลงนาม (ดู SIG_LINKED) */
+function applyDefaults(force){
   const today = thaiTodayISO();
-  let prev = ''; try{ prev = localStorage.getItem('wp_defday') || ''; }catch(_){}
-  const stale = prev && prev !== today;           /* เปิดข้ามวัน: วันที่ที่ระบบเติมไว้เมื่อวานให้เปลี่ยนเป็นวันนี้ */
-  DEF_DATES.forEach(k=>{ const e=$(`[data-k="${k}"]`); if(e && (!e.value || (stale && e.value===prev))) e.value = today; });
+  let prev = '', saved = false;
+  try{ prev = localStorage.getItem('wp_defday') || ''; saved = !!localStorage.getItem('wp_f01'); }catch(_){}
+  const stale = prev && prev !== today;
+  /* เปิดซ้ำในวันเดียวกัน: ไม่เติมทับช่องที่ผู้ใช้ลบหรือเว้นว่างไว้ */
+  if(!force && saved && !stale) return;
+  const wd = $('[data-k="work_date"]'); if(wd && !wd.value) wd.value = today;
   Object.entries(DEF_TIMES).forEach(([k,v])=>setDefaultIfBlank(k, v));
-  if(stale){
+  if(stale){                                       /* เปิดข้ามวัน: วันที่ที่ระบบเติมไว้เมื่อวานให้เปลี่ยนเป็นวันนี้ */
+    ALL_DATES.forEach(k=>{ const e=$(`[data-k="${k}"]`); if(e && e.value===prev) e.value = today; });
     const [y,m,d] = prev.split('-').map(Number), oldTh = `${d}/${m}/${y+543}`;
     for(let i=0;i<ROWS;i++){ const e=$(`[data-k="w${i}_date"]`); if(e && e.value===oldTh) e.value = thaiToday(); }
   }
@@ -620,6 +651,36 @@ $('#rosterFile').onchange = e => {
 function clearRoster(){ if(confirm('ลบรายชื่อที่นำเข้าไว้ในเครื่องนี้?')){ try{ localStorage.removeItem('wp_roster'); }catch(_){} location.reload(); } }
 if(window.ROSTER && window.ROSTER.people) $$('.rosterBtn').forEach(b=>b.style.display='none'); /* มี roster.js แล้ว ไม่ต้องนำเข้าเอง */
 $('#rosterHint').textContent = CONFIG.people.length ? `👥 รายชื่อ ${CONFIG.people.length} คน${CONFIG.rosterDate?' · อัปเดต '+CONFIG.rosterDate:''}` : '⚠ ยังไม่ได้นำเข้ารายชื่อ กดปุ่ม "👥 นำเข้ารายชื่อ" ด้านบน';
+
+/* ===== เข้าสู่ระบบด้วยรหัสพนักงาน (ตรวจกับรายชื่อใน roster.js) · จำการเข้าสู่ระบบในเครื่อง 30 วัน ===== */
+const AUTH_KEY = 'wp_auth', AUTH_DAYS = 30;
+const sameId = (a, b) => { a = String(a).trim(); b = String(b).trim(); return !!a && !!b && (a === b || (/^\d+$/.test(a) && /^\d+$/.test(b) && +a === +b)); };
+const findEmp = id => CONFIG.people.find(p => sameId(p.id, id));
+function unlock(p, silent){
+  document.body.classList.remove('locked'); $('#gate').hidden = true; $('#logoutBtn').style.display = '';
+  if(!silent) toast('สวัสดี ' + p.name);
+}
+function logout(){ try{ localStorage.removeItem(AUTH_KEY); }catch(_){} location.reload(); }
+(function(){
+  let fails = 0, lockUntil = 0;
+  const msg = t => $('#gateMsg').textContent = t;
+  try{
+    const a = JSON.parse(localStorage.getItem(AUTH_KEY) || 'null');
+    const p = a && a.exp > Date.now() && findEmp(a.id);
+    if(p){ unlock(p, true); return; }
+  }catch(_){}
+  if(!CONFIG.people.length) msg('ไม่พบรายชื่อพนักงาน กรุณาแจ้งผู้ดูแล');
+  const submit = () => {
+    if(Date.now() < lockUntil){ msg('ลองใหม่อีกครั้งใน ' + Math.ceil((lockUntil-Date.now())/1000) + ' วินาที'); return; }
+    const id = $('#gateId').value, p = findEmp(id);
+    if(!p){ fails++; msg('ไม่พบรหัสพนักงานนี้'); if(fails >= 5){ lockUntil = Date.now() + 30000; fails = 0; } return; }
+    try{ localStorage.setItem(AUTH_KEY, JSON.stringify({id: String(p.id), exp: Date.now() + AUTH_DAYS*864e5})); }catch(_){}
+    unlock(p, false);
+  };
+  $('#gateBtn').onclick = submit;
+  $('#gateId').addEventListener('keydown', e => { if(e.key === 'Enter') submit(); });
+  $('#gateId').focus();
+})();
 </script>
 </body>
 </html>
