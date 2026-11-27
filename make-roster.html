@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>สร้างไฟล์ roster.js จาก Excel</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+:root{--bg:#f3f4f6;--card:#fff;--ink:#111;--muted:#555;--accent:#1f4e79}
+@media (prefers-color-scheme:dark){:root{--bg:#15181c;--card:#1f242a;--ink:#eee;--muted:#aab;--accent:#7fb4e6}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Sarabun','Tahoma',sans-serif;line-height:1.6}
+main{max-width:560px;margin:0 auto;padding:20px 16px}
+.card{background:var(--card);border-radius:12px;padding:16px;margin:12px 0}
+h1{font-size:20px;margin:0 0 4px}.note{color:var(--muted);font-size:13px}
+button,label.btn{display:inline-block;font:inherit;border:0;border-radius:8px;padding:10px 16px;background:var(--accent);color:#fff;cursor:pointer}
+button:disabled{opacity:.4;cursor:not-allowed}
+#msg{font-weight:600;margin-top:10px}
+</style></head><body><main>
+<h1>สร้างไฟล์ roster.js จาก Excel</h1>
+<p class="note">ประมวลผลในเครื่องของคุณ ไม่ส่งข้อมูลขึ้นอินเทอร์เน็ต</p>
+<div class="card"><b>ขั้นที่ 1</b> เลือกไฟล์ Excel รายชื่อ (แม่แบบ workpermit_data_template)<br><br>
+<label class="btn">เลือกไฟล์ .xlsx<input id="f" type="file" accept=".xlsx" hidden></label>
+<div id="msg"></div></div>
+<div class="card"><b>ขั้นที่ 2</b> ดาวน์โหลด roster.js<br><br><button id="dl" disabled>ดาวน์โหลด roster.js</button>
+<p class="note">จากนั้นนำไฟล์ไปอัปโหลดทับ roster.js เดิมใน repository (Add file → Upload files → Commit)</p></div>
+</main>
+<script>
+
+function rosterFromSheets(S){
+  const ok = v => v!=null && String(v).trim()!=='' && !String(v).startsWith('ตัวอย่าง');
+  const rows = n => (S[n]||[]).slice(1);
+  const depts = rows('หน่วยงาน').map(r=>r[0]).filter(ok);
+  const pl = rows('สถานที่').filter(r=>ok(r[0])), places = pl.map(r=>r[0]), placeAbbr = {};
+  pl.forEach(r=>{ if(r[1]) placeAbbr[r[0]] = r[1]; });
+  const groupDept = {}; rows('กรุ๊ป').forEach(r=>{ if(ok(r[0])) groupDept[r[0]] = r[1]; });
+  const people = [], groups = {}; Object.keys(groupDept).forEach(g=>groups[g]=[]);
+  rows('รายชื่อ').forEach(r=>{
+    if(!ok(r[1]) || String(r[0]||'').startsWith('ตัวอย่าง')) return;
+    const p = {name:r[1], id:String(r[2]==null?'':r[2]), pos:r[3]||'', unit:r[4]||'', st:r[5]||'', div:r[6]||'', dep:r[7]||''};
+    people.push(p);
+    if(groups[r[0]]) groups[r[0]].push({name:p.name, id:p.id, pos:p.pos, unit:p.unit});
+  });
+  return {depts, places, placeAbbr, groupDept, groups, people};
+}
+
+let out='';
+document.getElementById('f').onchange = async e => {
+  const f=e.target.files[0], msg=document.getElementById('msg'); if(!f) return;
+  try{
+    const wb=XLSX.read(await f.arrayBuffer(),{type:'array'}), S={};
+    wb.SheetNames.forEach(n=>S[n]=XLSX.utils.sheet_to_json(wb.Sheets[n],{header:1,defval:'',raw:false}));
+    const d=rosterFromSheets(S); if(!d.people.length) throw new Error('ไม่พบรายชื่อในแท็บ "รายชื่อ"');
+    const t=new Date(); d.updated=`${t.getDate()}/${t.getMonth()+1}/${t.getFullYear()+543}`;
+    out='/* รายชื่อบุคลากร: แทนที่ไฟล์นี้ไฟล์เดียว เมื่อรายชื่อเปลี่ยน */\nwindow.ROSTER = '+JSON.stringify(d,null,1)+';\n';
+    msg.textContent=`✔ อ่านได้ ${d.people.length} คน · ${Object.keys(d.groups).length} กรุ๊ป · ${d.places.length} สถานที่ · ${d.depts.length} หน่วยงาน`;
+    document.getElementById('dl').disabled=false;
+  }catch(err){ out=''; msg.textContent='✖ '+err.message; document.getElementById('dl').disabled=true; }
+};
+document.getElementById('dl').onclick=()=>{ const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([out],{type:'text/javascript'})); a.download='roster.js'; a.click(); };
+</script></body></html>
