@@ -114,6 +114,14 @@ td:first-child{width:32px}
  .page input,.page textarea{color:#000}
  .page td select{appearance:none;-webkit-appearance:none;color:#000}
 }
+/* ช่องวันที่ที่ว่าง: ซ่อนข้อความ วว/ดด/ปปปป ของเบราว์เซอร์ให้เป็นช่องว่างจริง (เห็นเมื่อคลิกเข้าไปกรอก) */
+input[type=date].empty:not(:focus){color:transparent;-webkit-text-fill-color:transparent}
+input[type=date].empty:not(:focus)::-webkit-datetime-edit,input[type=date].empty:not(:focus)::-webkit-date-and-time-value{opacity:0}
+@media print{
+  input[type=date].empty{color:transparent;-webkit-text-fill-color:transparent}
+  input[type=date].empty::-webkit-datetime-edit,input[type=date].empty::-webkit-date-and-time-value{opacity:0}
+  input[type=date]::-webkit-calendar-picker-indicator{display:none}
+}
 /* ===== หน้าเข้าสู่ระบบด้วยรหัสพนักงาน ===== */
 body.locked > *:not(#gate):not(script):not(datalist){visibility:hidden}
 #gate{position:fixed;inset:0;z-index:99999;background:#e6e8eb;display:flex;align-items:center;justify-content:center;padding:16px}
@@ -406,7 +414,7 @@ $('#workers').innerHTML = Array.from({length:ROWS},(_,i)=>`<tr><td>${i+1}</td>`+
 const fill = (sel, arr, ph) => sel.innerHTML = `<option value="">${ph}</option>` + arr.map(a=>`<option>${a}</option>`).join('');
 fill($('#selDept'), CONFIG.depts, '— ทั้งหมด —'); fill($('#selPlace'), CONFIG.places, '— เลือก —');
 
-function setVal(k, v){ const e=$(`[data-k="${k}"]`); if(!e) return; e.type==='checkbox' ? e.checked=!!v : e.value = v ?? ''; }
+function setVal(k, v){ const e=$(`[data-k="${k}"]`); if(!e) return; e.type==='checkbox' ? e.checked=!!v : e.value = v ?? ''; if(e.type==='date') e.classList.toggle('empty', !e.value); }
 function mirror(){ $$('[data-mirror]').forEach(s=>s.textContent = $(`[data-k="${s.dataset.mirror}"]`).value || '………'); }
 function toast(m){ const s=$('#status'); s.textContent=m; s.classList.add('on'); setTimeout(()=>s.classList.remove('on'),1800); }
 
@@ -681,6 +689,13 @@ function logout(){ try{ localStorage.removeItem(AUTH_KEY); }catch(_){} location.
   $('#gateId').addEventListener('keydown', e => { if(e.key === 'Enter') submit(); });
   $('#gateId').focus();
 })();
+
+/* ===== ช่องวันที่ว่าง → แสดงเป็นช่องว่าง (ข้อ 9, 10–14 และอื่น ๆ) ===== */
+function refreshDateEmpty(){ $$('input[type=date]').forEach(e=>e.classList.toggle('empty', !e.value)); }
+['input','change','focusout'].forEach(ev=>document.addEventListener(ev, refreshDateEmpty));
+window.addEventListener('beforeprint', refreshDateEmpty);
+setInterval(refreshDateEmpty, 500);   /* กันกรณีระบบเติม/ล้างค่าโดยไม่มี event */
+refreshDateEmpty();
 </script>
 </body>
 </html>
