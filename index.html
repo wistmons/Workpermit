@@ -71,7 +71,8 @@ td:first-child{width:32px}
 .sigline.ctr .sl .signature-date{width:96px}
 .row.nw{flex-wrap:nowrap;white-space:nowrap;font-size:12px;gap:4px}
 .row.nw input[type=date]{flex:0 1 auto;width:102px}
-.row.nw input[type=time]{flex:0 1 auto;width:66px}
+.tm{width:56px;text-align:center}
+.row.nw input.tm{flex:0 1 auto;width:56px}
 .sigline .sl .signature-date{flex:0 0 auto;width:96px;max-width:none}
 .status{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);background:#222;color:#fff;padding:6px 14px;border-radius:20px;opacity:0;transition:opacity .2s;pointer-events:none}
 .status.on{opacity:1}
@@ -191,7 +192,7 @@ td:first-child{width:32px}
  </div>
 
  <h2>4. รายละเอียดการขออนุญาต</h2>
- <div class="row">ขออนุญาตเข้าทำงาน วันที่ <input type="date" data-k="work_date" data-today> เวลา <input type="time" data-k="t_from"> น. ถึง เวลา <input type="time" data-k="t_to"> น.</div>
+ <div class="row">ขออนุญาตเข้าทำงาน วันที่ <input type="date" data-k="work_date" data-today> เวลา <input type="text" class="tm" inputmode="numeric" maxlength="5" placeholder="HH:MM" autocomplete="off" aria-label="เวลา 24 ชั่วโมง" data-k="t_from"> น. ถึง เวลา <input type="text" class="tm" inputmode="numeric" maxlength="5" placeholder="HH:MM" autocomplete="off" aria-label="เวลา 24 ชั่วโมง" data-k="t_to"> น.</div>
  <div class="row" style="flex-wrap:nowrap">สถานที่ปฏิบัติงาน <input type="text" class="w-l" data-k="work_place" data-place></div>
  <div>รายละเอียดของงานที่ปฏิบัติ <textarea rows="3" data-k="work_desc"></textarea></div>
 
@@ -257,7 +258,7 @@ td:first-child{width:32px}
   <div class="box sign-box" style="display:flex;flex-direction:column;justify-content:space-between">
    <div>
     <h2>13. ขอแจ้งปิดงาน</h2>
-    <div class="row nw" style="margin-top:4px">แล้วเสร็จเมื่อ <input type="date" data-k="close_date"> เวลา <input type="time" data-k="close_time"> น.</div>
+    <div class="row nw" style="margin-top:4px">แล้วเสร็จเมื่อ <input type="date" data-k="close_date"> เวลา <input type="text" class="tm" inputmode="numeric" maxlength="5" placeholder="HH:MM" autocomplete="off" aria-label="เวลา 24 ชั่วโมง" data-k="close_time"> น.</div>
     <div style="margin-top:2px">และได้จัดสถานที่ทำงานให้มีสภาพเรียบร้อยแล้ว</div>
    </div>
    <div class="sign sigline" style="margin-top:10px"><div class="sl">ลงชื่อ <input type="text" data-k="s13"> <span>ผู้ขออนุญาต หรือผู้ควบคุมงาน</span></div><div class="sl d">( <input type="text" data-k="s13n" data-list="signs11"> ) <input type="date" class="signature-date" data-k="s13d" aria-label="วันที่ลงนามข้อ 13"></div></div>
@@ -265,7 +266,7 @@ td:first-child{width:32px}
   <div class="box sign-box" style="display:flex;flex-direction:column;justify-content:space-between">
    <div>
     <h2>14. การพิจารณาปิดงาน</h2>
-    <div class="row nw" style="margin-top:4px">พิจารณาปิดงานให้เมื่อ <input type="date" data-k="ok_date"> เวลา <input type="time" data-k="ok_time"> น.</div>
+    <div class="row nw" style="margin-top:4px">พิจารณาปิดงานให้เมื่อ <input type="date" data-k="ok_date"> เวลา <input type="text" class="tm" inputmode="numeric" maxlength="5" placeholder="HH:MM" autocomplete="off" aria-label="เวลา 24 ชั่วโมง" data-k="ok_time"> น.</div>
    </div>
    <div class="sign sigline" style="margin-top:10px"><div class="sl">ลงชื่อ <input type="text" data-k="s14"> <span>ผู้อนุญาตเข้าทำงานเจ้าของพื้นที่</span></div><div class="sl d">( <input type="text" data-k="s14n" data-list="owners"> ) <input type="date" class="signature-date" data-k="s14d" aria-label="วันที่ลงนามข้อ 14"></div></div>
   </div>
@@ -570,6 +571,18 @@ function applyDefaults(){
   try{ localStorage.setItem('wp_defday', today); }catch(_){}
 }
 applyDefaults();
+/* เวลา: พิมพ์ตัวเลขแบบ 24 ชั่วโมง (เช่น 0800 → 08:00) ไม่ใช้ AM/PM ของเบราว์เซอร์ */
+const fmtTime = s => { const d = String(s).replace(/\D/g,'').slice(0,4); return d.length>2 ? d.slice(0,2)+':'+d.slice(2) : d; };
+const normTime = s => {
+  const d = String(s).replace(/\D/g,''); if(!d) return '';
+  let hh, mm;
+  if(d.length<=2){ hh=+d; mm=0; } else if(d.length===3){ hh=+d[0]; mm=+d.slice(1); } else { hh=+d.slice(0,2); mm=+d.slice(2,4); }
+  hh = Math.min(hh,23); mm = Math.min(mm,59);
+  return String(hh).padStart(2,'0')+':'+String(mm).padStart(2,'0');
+};
+document.addEventListener('input', e => { const t=e.target; if(t.classList && t.classList.contains('tm')){ const f=fmtTime(t.value); if(f!==t.value) t.value=f; } });
+document.addEventListener('focusout', e => { const t=e.target; if(t.classList && t.classList.contains('tm')){ const n=normTime(t.value); if(n!==t.value){ t.value=n; document.dispatchEvent(new Event('input')); } } });
+$$('.tm').forEach(e => e.value = normTime(e.value));
 mirror();
 updateAllSignatures(false);
 
