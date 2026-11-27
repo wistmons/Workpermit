@@ -122,8 +122,8 @@ td:first-child{width:32px}
  <button onclick="document.getElementById('f').click()">⤵ โหลดไฟล์</button>
  <button onclick="clearJob()">🧹 ล้างเฉพาะช่องงาน</button>
  <button onclick="window.print()">🖨️ พิมพ์ / บันทึก PDF</button>
- <button onclick="document.getElementById('rosterFile').click()">👥 นำเข้ารายชื่อ</button>
- <button onclick="clearRoster()">🗑 ลบรายชื่อในเครื่อง</button>
+ <button class="rosterBtn" onclick="document.getElementById('rosterFile').click()">👥 นำเข้ารายชื่อ</button>
+ <button class="rosterBtn" onclick="clearRoster()">🗑 ลบรายชื่อในเครื่อง</button>
  <input type="file" id="f" accept=".json" hidden>
  <input type="file" id="rosterFile" accept=".json" hidden>
 </div>
@@ -282,8 +282,9 @@ td:first-child{width:32px}
 <button type="button" id="cbBtn" aria-label="เปิดรายชื่อ">▾</button><div id="cbMenu"></div>
 <div class="status" id="status"></div>
 
+<script src="roster.js"></script>
 <script>
-/* ===== ข้อมูลสาธารณะ (หน่วยงาน/สถานที่) · รายชื่อบุคคลไม่อยู่ในไฟล์นี้ ให้กด "นำเข้ารายชื่อ" จากไฟล์ roster.json ===== */
+/* ===== ข้อมูลสาธารณะ (หน่วยงาน/สถานที่) · รายชื่อบุคคลอยู่ในไฟล์ roster.js (สร้างจาก Excel ด้วย make-roster.html) ===== */
 const CONFIG = {
 "depts": [
 "หรน2-ส.",
@@ -338,8 +339,16 @@ const CONFIG = {
 "groups": {},
 "people": []
 };
-/* โหลดรายชื่อที่นำเข้าไว้ในเบราว์เซอร์เครื่องนี้ (localStorage) */
-try{ const r=JSON.parse(localStorage.getItem('wp_roster')||'null'); if(r&&Array.isArray(r.people)){ CONFIG.people=r.people; CONFIG.groups=r.groups||{}; CONFIG.groupDept=r.groupDept||{}; } }catch(_){}
+/* โหลดรายชื่อ: ใช้ roster.js บนเว็บก่อน ถ้าไม่มีจึงใช้รายชื่อที่นำเข้าไว้ในเบราว์เซอร์ (localStorage) */
+try{
+  let r = window.ROSTER;
+  if(!(r && Array.isArray(r.people) && r.people.length)) r = JSON.parse(localStorage.getItem('wp_roster')||'null');
+  if(r && Array.isArray(r.people)){
+    CONFIG.people = r.people; CONFIG.groups = r.groups||{}; CONFIG.groupDept = r.groupDept||{}; CONFIG.rosterDate = r.updated||'';
+    if(r.depts && r.depts.length) CONFIG.depts = r.depts;                                   /* หน่วยงาน/สถานที่ ตามแท็บใน Excel */
+    if(r.places && r.places.length){ CONFIG.places = r.places; CONFIG.placeAbbr = r.placeAbbr||CONFIG.placeAbbr; }
+  }
+}catch(_){}
 const ROWS = 10;
 const REQ_UNIT = 'หรน2-ส.'; /* หน่วยงานที่ใช้เป็นรายชื่อผู้ขออนุญาต / ผู้ปฏิบัติงานข้อ 9 */
 /* กรุ๊ป C42 = ทุกคนของ REQ_UNIT (สร้างจากแท็บรายชื่อ ไม่ต้องกรอกซ้ำ) */
@@ -585,7 +594,8 @@ $('#rosterFile').onchange = e => {
   r.readAsText(f); e.target.value = '';
 };
 function clearRoster(){ if(confirm('ลบรายชื่อที่นำเข้าไว้ในเครื่องนี้?')){ try{ localStorage.removeItem('wp_roster'); }catch(_){} location.reload(); } }
-$('#rosterHint').textContent = CONFIG.people.length ? `👥 รายชื่อในเครื่องนี้ ${CONFIG.people.length} คน` : '⚠ ยังไม่ได้นำเข้ารายชื่อ กดปุ่ม "👥 นำเข้ารายชื่อ" ด้านบน';
+if(window.ROSTER && window.ROSTER.people) $$('.rosterBtn').forEach(b=>b.style.display='none'); /* มี roster.js แล้ว ไม่ต้องนำเข้าเอง */
+$('#rosterHint').textContent = CONFIG.people.length ? `👥 รายชื่อ ${CONFIG.people.length} คน${CONFIG.rosterDate?' · อัปเดต '+CONFIG.rosterDate:''}` : '⚠ ยังไม่ได้นำเข้ารายชื่อ กดปุ่ม "👥 นำเข้ารายชื่อ" ด้านบน';
 </script>
 </body>
 </html>
